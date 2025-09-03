@@ -15,35 +15,23 @@
     
     <style>
         :root {
-            --primary-color: #0d47a1; /* Deeper, more professional blue */
-            --primary-light: #e3f2fd;
-            --secondary-color: #ffab40; /* Accent color */
-            --bg-color: #f8f9fa; /* Off-white background */
+            --primary-color: #0d47a1;
+            --secondary-color: #ffab40;
+            --bg-color: #f8f9fa;
             --card-bg: #ffffff;
             --text-dark: #212529;
             --text-light: #6c757d;
+            --header-bg: rgba(255, 255, 255, 0.8);
             --card-shadow: 0 4px 25px rgba(0, 0, 0, 0.07);
             --card-hover-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --ease-1: cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         /* --- Base & Scrollbar --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            scroll-behavior: smooth;
-        }
-
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--bg-color);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary-color);
-            border-radius: 10px;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 10px; }
 
         body {
             font-family: 'Poppins', sans-serif;
@@ -51,256 +39,125 @@
             color: var(--text-dark);
             line-height: 1.8;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: auto;
-            padding: 0 20px;
-        }
-
-        h1, h2, h3 {
-            font-family: 'Roboto Slab', serif;
-            font-weight: 700;
-        }
-
+        .container { max-width: 1200px; margin: auto; padding: 0 20px; }
+        h1, h2, h3, h4 { font-family: 'Roboto Slab', serif; font-weight: 700; color: var(--text-dark);}
+        
         h2 {
             text-align: center;
             font-size: 2.5rem;
-            color: var(--primary-color);
-            margin-bottom: 50px;
+            margin-bottom: 60px;
             position: relative;
         }
-
-        h2::after {
-            content: '';
-            position: absolute;
-            width: 100px;
-            height: 4px;
-            background-color: var(--secondary-color);
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-radius: 2px;
-        }
-        
-        section {
-            padding: 100px 0;
-            overflow-x: hidden;
+        .gradient-text {
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        /* --- Animations & Reveal --- */
-        .reveal {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        section { padding: 100px 0; overflow-x: hidden; }
+
+        /* --- Animations --- */
+        .reveal { opacity: 0; transition: opacity 0.8s var(--ease-1), transform 0.8s var(--ease-1); }
+        .reveal.visible { opacity: 1; transform: translateY(0) translateX(0) scale(1); }
+        .reveal-up { transform: translateY(50px); }
+        .reveal-left { transform: translateX(-50px); }
+        .reveal-right { transform: translateX(50px); }
+        .reveal-zoom { transform: scale(0.9); }
 
         /* --- Header & Navigation --- */
         #header {
-            position: fixed;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            position: fixed; width: 100%;
+            background: var(--header-bg);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            z-index: 1000; box-shadow: 0 2px 15px rgba(0,0,0,0.08);
         }
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 70px;
-        }
-        .logo {
-            font-family: 'Roboto Slab', serif;
-            font-size: 1.6rem;
-            color: var(--primary-color);
-            text-decoration: none;
-        }
-        nav ul {
-            display: flex; list-style: none;
-        }
-        nav ul li {
-            margin-left: 35px;
-        }
-        nav ul a {
-            color: var(--text-dark);
-            text-decoration: none;
-            font-weight: 600;
-            position: relative;
-            padding: 5px 0;
-            transition: color 0.3s;
-        }
-        nav ul a::after {
-            content: '';
-            position: absolute;
-            height: 2px;
-            width: 0;
-            left: 0;
-            bottom: 0;
-            background: var(--secondary-color);
-            transition: width 0.3s ease;
-        }
-        nav ul a:hover {
-            color: var(--primary-color);
-        }
-        nav ul a:hover::after {
-            width: 100%;
-        }
-        #menu-icon {
-            display: none;
-            font-size: 1.8rem;
-            cursor: pointer;
-        }
+        nav { display: flex; justify-content: space-between; align-items: center; height: 70px; }
+        .logo { font-family: 'Roboto Slab', serif; font-size: 1.6rem; color: var(--primary-color); text-decoration: none; }
+        nav .nav-links { display: flex; list-style: none; align-items: center; }
+        nav .nav-links li { margin-left: 35px; }
+        nav .nav-links a { color: var(--text-dark); text-decoration: none; font-weight: 600; position: relative; padding: 5px 0; transition: color 0.3s; }
+        nav .nav-links a:hover { color: var(--primary-color); }
+        #menu-icon { display: none; font-size: 1.8rem; cursor: pointer; color: var(--text-dark); }
 
         /* --- Hero Section --- */
         #hero {
-            height: 100vh;
-            display: flex;
+            min-height: 100vh;
+            display: grid;
             align-items: center;
-            justify-content: center;
-            text-align: center;
-            background-image: linear-gradient(to top, #e3f2fd, transparent);
+            padding-top: 70px;
         }
-        .hero-content {
-            max-width: 900px;
+        .hero-grid { display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; gap: 40px; }
+        .hero-text h1 { font-size: 4rem; line-height: 1.1; margin-bottom: 20px; }
+        .hero-text .subtitle { font-size: 1.4rem; font-weight: 300; min-height: 80px; color: var(--text-light); }
+        .hero-text .subtitle .static-text { color: var(--text-dark); font-weight: 400;}
+        .typing-cursor { display: inline-block; animation: blink 0.7s infinite; background: var(--secondary-color); width: 3px; }
+        @keyframes blink { 50% { opacity: 0; } }
+        .hero-contact { display: flex; flex-wrap: wrap; gap: 15px 30px; margin: 25px 0; font-size: 1rem; }
+        .hero-contact a { color: var(--text-light); text-decoration: none; transition: color 0.3s; }
+        .hero-contact a:hover { color: var(--primary-color); }
+        .hero-contact i { margin-right: 8px; color: var(--primary-color); }
+        .social-links a { font-size: 2rem; color: var(--text-dark); margin-right: 25px; display: inline-block; transition: transform 0.3s, color 0.3s; }
+        .social-links a:hover { color: var(--primary-color); transform: translateY(-5px); }
+        .hero-image { position: relative; text-align: center; }
+        .hero-image img {
+            width: 350px; height: 350px; object-fit: cover; border-radius: 50%;
+            border: 5px solid var(--card-bg); box-shadow: 0 10px 40px rgba(0,0,0,0.15);
         }
-        .hero-content h1 {
-            font-size: 4rem;
-            color: var(--primary-color);
+        .hero-image::before {
+            content: ''; position: absolute; top: 50%; left: 50%;
+            width: 100%; height: 100%; max-width: 360px; max-height: 360px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%; z-index: -1; transform: translate(-50%, -50%);
+            animation: pulse 5s infinite ease-in-out;
         }
-        .hero-content .subtitle {
-            font-size: 1.4rem;
-            color: var(--text-dark);
-            font-weight: 300;
-            margin: 10px 0 25px;
-        }
-        .hero-contact {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 15px 30px;
-            margin-bottom: 30px;
-            font-size: 1rem;
-        }
-        .hero-contact a {
-            color: var(--text-light);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        .hero-contact a:hover {
-            color: var(--primary-color);
-        }
-        .hero-contact i {
-            margin-right: 8px;
-            color: var(--primary-color);
-        }
-        .social-links a {
-            font-size: 2rem;
-            color: var(--text-dark);
-            margin: 0 15px;
-            display: inline-block;
-            transition: transform 0.3s ease, color 0.3s ease;
-        }
-        .social-links a:hover {
-            color: var(--primary-color);
-            transform: translateY(-5px);
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+            50% { transform: translate(-50%, -50%) scale(1.05); opacity: 1; }
         }
 
-        /* --- Card Styles --- */
+        /* Card Styles */
         .card {
             background: var(--card-bg);
             padding: 30px;
             border-radius: 12px;
             box-shadow: var(--card-shadow);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s var(--ease-1), box-shadow 0.3s var(--ease-1);
         }
         .card:hover {
             transform: translateY(-8px);
             box-shadow: var(--card-hover-shadow);
         }
 
-        /* --- Education Section --- */
-        .education-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        .education-card {
-            text-align: center;
-        }
-        .education-card i {
-            font-size: 3rem;
-            color: var(--primary-color);
-            margin-bottom: 15px;
-        }
-        .education-card h3 {
-            font-size: 1.2rem;
-            color: var(--text-dark);
-            margin-bottom: 5px;
-        }
-        .education-card p {
-            color: var(--text-light);
-            font-size: 0.9rem;
-        }
-        .education-card .score {
-            font-size: 1.8rem;
-            font-family: 'Roboto Slab', serif;
-            color: var(--primary-color);
-            margin-top: 15px;
-        }
-
-        /* --- Scholastic Achievements --- */
-        #achievements {
-            background-color: var(--primary-light);
-        }
-        .achievement-card {
-            max-width: 800px;
-            margin: auto;
-            text-align: center;
-        }
-        .achievement-card i {
-            font-size: 3.5rem; color: var(--secondary-color);
-        }
-        .achievement-card h3 {
-            font-size: 1.5rem;
-            color: var(--text-dark);
-            margin: 15px 0;
-        }
-        .achievement-card p {
-            font-size: 1.1rem;
-            color: var(--text-light);
-        }
-        .achievement-card strong {
-            color: var(--primary-color);
-        }
+        /* Education Section */
+        .education-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .education-card { text-align: center; }
+        .education-card i { font-size: 3rem; color: var(--primary-color); margin-bottom: 15px; }
+        .education-card h3 { font-size: 1.2rem; margin-bottom: 5px; }
+        .education-card p { color: var(--text-light); font-size: 0.9rem; }
+        .education-card .score { font-size: 1.8rem; font-family: 'Roboto Slab', serif; color: var(--primary-color); margin-top: 15px; }
+        
+        /* Achievements Section */
+        #achievements { background-color: var(--card-bg); }
+        .achievement-card { max-width: 800px; margin: auto; text-align: center; }
+        .achievement-card i { font-size: 3.5rem; color: var(--secondary-color); }
+        .achievement-card h3 { font-size: 1.5rem; margin: 15px 0; }
+        .achievement-card p { font-size: 1.1rem; color: var(--text-light); }
+        .achievement-card strong { color: var(--primary-color); }
 
         /* --- Experience Timeline --- */
-        .timeline {
-            position: relative;
-            max-width: 1000px;
-            margin: 40px auto;
-        }
-        .timeline::after {
-            content: ''; position: absolute; width: 4px;
-            background-color: var(--primary-light); top: 0; bottom: 0;
-            left: 50%; margin-left: -2px; z-index: -1;
-        }
-        .timeline-item {
-            padding: 10px 40px; position: relative; width: 50%;
-        }
-        .timeline-item.left { left: 0; text-align: right; }
-        .timeline-item.right { left: 50%; }
+        .timeline { position: relative; max-width: 1000px; margin: 40px auto; }
+        .timeline::after { content: ''; position: absolute; width: 4px; background-color: var(--primary-color); opacity: 0.2; top: 0; bottom: 0; left: 50%; margin-left: -2px; }
+        .timeline-item { padding: 10px 40px; position: relative; width: 50%; }
+        .timeline-item.left { left: 0; } .timeline-item.right { left: 50%; }
         .timeline-icon {
             position: absolute; top: 25px; width: 50px; height: 50px;
             background: var(--card-bg); border: 4px solid var(--primary-color);
             border-radius: 50%; z-index: 1; display: flex;
-            align-items: center; justify-content: center; font-size: 1.5rem;
-            color: var(--primary-color);
+            align-items: center; justify-content: center; font-size: 1.5rem; color: var(--primary-color);
+            transition: transform 0.3s var(--ease-1);
         }
+        .timeline-item:hover .timeline-icon { transform: scale(1.1); }
         .timeline-item.left .timeline-icon { right: -25px; }
         .timeline-item.right .timeline-icon { left: -25px; }
         .timeline-content {
@@ -308,145 +165,99 @@
             border-radius: 10px; box-shadow: var(--card-shadow);
         }
         .timeline-content h3 { font-size: 1.3rem; margin-top: 0; color: var(--primary-color);}
-        .timeline-content .tag { font-weight: 600; font-size: 1rem; display: block; margin-bottom: 5px; }
-        .timeline-content .date { font-size: 0.9rem; color: var(--text-light); margin-bottom: 15px; display: block; }
+        .timeline-content .tag, .timeline-content .date { font-size: 0.9rem; color: var(--text-light); margin-bottom: 10px; display: block; }
         .timeline-content ul { list-style: none; padding: 0; text-align: left; }
         .timeline-content li { font-size: 0.95rem; margin-bottom: 10px; color: var(--text-light); padding-left: 20px; position: relative; }
-        .timeline-content li::before {
-            content: '✓'; color: var(--secondary-color); position: absolute; left: 0; font-weight: bold;
-        }
-        .lor-highlight {
-            background-color: var(--primary-light);
-            padding: 2px 8px; border-radius: 4px; color: var(--primary-color);
-            font-weight: bold; font-size: 0.9em;
-        }
+        .timeline-content li::before { content: '✓'; color: var(--secondary-color); position: absolute; left: 0; font-weight: bold; }
+        .counter { font-weight: 700; color: var(--primary-color); font-family: 'Roboto Slab', serif; }
 
-        /* --- Accordion (Projects, PoR, etc.) --- */
-        #projects, #responsibility, #extracurriculars { background-color: var(--primary-light); }
+        /* --- Accordion --- */
+        #projects, #responsibility, #extracurriculars { background-color: var(--card-bg); }
         .accordion { max-width: 900px; margin: auto; }
         .accordion details {
-            background: var(--card-bg); margin-bottom: 15px;
-            border-radius: 10px; box-shadow: var(--card-shadow);
-            border: 1px solid #eee;
+            background: var(--bg-color); margin-bottom: 15px; border-radius: 10px;
+            box-shadow: var(--card-shadow); border: 1px solid transparent;
+            transition: border-color 0.3s var(--ease-1);
         }
+        .accordion details[open] { border-color: var(--primary-color); }
         .accordion summary {
             padding: 20px; font-size: 1.2rem; font-weight: 600;
             cursor: pointer; list-style: none; position: relative;
-            color: var(--primary-color);
+            color: var(--primary-color); transition: color 0.3s;
         }
-        .accordion summary::-webkit-details-marker { display: none; }
+        .accordion details[open] summary { color: var(--secondary-color); }
         .accordion summary::after {
             content: '+'; position: absolute; right: 20px; top: 50%;
-            transform: translateY(-50%); font-size: 1.5rem;
-            transition: transform 0.3s ease;
+            transform: translateY(-50%); font-size: 1.5rem; transition: transform 0.3s var(--ease-1);
         }
-        .accordion details[open] summary::after {
-            transform: translateY(-50%) rotate(45deg);
-        }
-        .accordion-content {
-            padding: 0 20px 20px 20px;
-            color: var(--text-light);
-        }
-        .accordion-content h4 { color: var(--text-dark); margin-top: 10px; }
-        .accordion-content ul { padding-left: 20px; }
-        .accordion-content li { margin-bottom: 8px; }
-        .project-meta { font-size: 0.9rem; font-style: italic; color: var(--text-light); margin: -10px 0 15px; }
-        .project-links a { font-size: 1.5rem; color: var(--text-dark); margin-right: 15px; transition: color 0.3s; }
-        .project-links a:hover { color: var(--primary-color); }
+        .accordion details[open] summary::after { transform: translateY(-50%) rotate(45deg); }
+        .accordion-content { padding: 0 20px 20px 20px; color: var(--text-light); }
+        .accordion-content h4 { color: var(--text-dark); margin: 15px 0 5px; border-left: 3px solid var(--secondary-color); padding-left: 10px; }
+        .accordion-content ul { list-style-position: inside; padding-left: 5px; }
+        .project-meta, .por-meta { font-size: 0.9rem; font-style: italic; color: var(--text-light); margin: -10px 0 15px; }
+        .project-links a { color: var(--primary-color); text-decoration: none; font-weight: 600; }
         .tech-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
-        .tech-tag { background: var(--primary-light); color: var(--primary-color); padding: 3px 10px; border-radius: 15px; font-size: 0.8rem; font-weight: 600; }
-
+        .tech-tag { background-color: var(--primary-color); color: white; padding: 3px 12px; border-radius: 15px; font-size: 0.8rem; font-weight: 600; }
+        
         /* --- Skills Section --- */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 25px;
-            max-width: 900px;
-            margin: auto;
-        }
-        .skill-item {
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-        .skill-item:hover {
-            transform: scale(1.1);
-        }
-        .skill-item i {
-            font-size: 4rem;
-            color: var(--primary-color);
-        }
-        .skill-item p {
-            margin-top: 10px;
-            font-weight: 600;
-            color: var(--text-dark);
-        }
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 30px; max-width: 900px; margin: auto; }
+        .skill-item { text-align: center; transition: transform 0.3s var(--ease-1); }
+        .skill-item:hover { transform: translateY(-10px); }
+        .skill-item i { font-size: 4rem; color: var(--text-dark); transition: color 0.3s; }
+        .skill-item:hover i { color: var(--primary-color); }
+        .skill-item p { margin-top: 10px; font-weight: 600; color: var(--text-light); }
 
         /* --- Courses Section --- */
-        .courses-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            max-width: 1000px;
-            margin: auto;
-        }
-        .course-item {
-            background: var(--card-bg); padding: 15px 20px;
-            border-radius: 8px; box-shadow: var(--card-shadow);
-            text-align: center;
-        }
-        .course-item p { font-weight: 500; }
-
-        /* --- Footer --- */
-        footer {
-            background-color: var(--text-dark); color: #ccc;
-            text-align: center; padding: 40px 20px;
-        }
-        footer .footer-socials a { font-size: 1.6rem; color: #ccc; margin: 0 12px; transition: color 0.3s; }
-        footer .footer-socials a:hover { color: var(--secondary-color); }
+        #courses { background-color: var(--bg-color); }
+        .courses-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; max-width: 1000px; margin: auto; }
+        .course-item { background: var(--card-bg); padding: 15px 20px; border-radius: 8px; box-shadow: var(--card-shadow); text-align: center; }
+        .course-item p { font-weight: 500; color: var(--text-dark); }
+        
+        /* --- Footer & Back to Top --- */
+        footer { background-color: var(--card-bg); color: var(--text-light); text-align: center; padding: 40px 20px; border-top: 1px solid; border-image: linear-gradient(to right, transparent, var(--primary-color), transparent) 1; }
+        footer .footer-socials a { font-size: 1.6rem; color: var(--text-light); margin: 0 12px; transition: color 0.3s, transform 0.3s; }
+        footer .footer-socials a:hover { color: var(--primary-color); transform: translateY(-3px); }
         footer p { margin-top: 20px; font-size: 0.9rem; }
-
-        /* --- Back to Top Button --- */
         #to-top {
-            position: fixed; bottom: 20px; right: 20px;
-            background: var(--primary-color); color: white;
-            width: 45px; height: 45px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem; text-decoration: none;
-            opacity: 0; visibility: hidden; transition: all 0.4s;
+            position: fixed; bottom: 20px; right: 20px; background: var(--primary-color); color: white;
+            width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; text-decoration: none; opacity: 0; visibility: hidden; transition: all 0.4s;
         }
-        #to-top.active {
-            opacity: 1; visibility: visible;
-        }
+        #to-top.active { opacity: 1; visibility: visible; }
 
         /* --- Responsive Design --- */
         @media (max-width: 992px) {
+            .hero-grid { grid-template-columns: 1fr; text-align: center; }
+            .hero-image { grid-row: 1; margin-bottom: 30px; }
+            .hero-contact, .social-links { justify-content: center; }
             .timeline::after { left: 25px; }
             .timeline-item { width: 100%; padding-left: 70px; padding-right: 0; }
             .timeline-item.right { left: 0; }
-            .timeline-item.left { text-align: left; }
             .timeline-item.left .timeline-icon, .timeline-item.right .timeline-icon { left: 0px; }
         }
         @media (max-width: 768px) {
-            #menu-icon { display: block; z-index: 1001;}
-            nav ul {
+            #menu-icon { display: block; z-index: 1001; }
+            nav .nav-links {
                 position: fixed; top: 0; left: -100%; width: 100%; height: 100vh;
-                background: #fff; flex-direction: column; justify-content: center;
-                align-items: center; transition: left 0.4s ease-in-out;
+                background: var(--card-bg); flex-direction: column; justify-content: center;
+                align-items: center; transition: left 0.4s var(--ease-1);
             }
-            nav ul.active { left: 0; }
-            nav ul li { margin: 25px 0; }
-            nav ul a { font-size: 1.3rem; }
-            .hero-content h1 { font-size: 2.8rem; }
-            .hero-content .subtitle { font-size: 1.2rem; }
+            nav .nav-links.active { left: 0; }
+            nav .nav-links li { margin: 25px 0; }
+            nav .nav-links a { font-size: 1.3rem; }
+            .hero-text h1 { font-size: 2.8rem; }
+            .hero-text .subtitle { font-size: 1.1rem; min-height: 100px;}
+            .hero-image img, .hero-image::before { width: 280px; height: 280px; }
         }
+
     </style>
 </head>
 <body>
 
     <header id="header">
         <nav class="container">
-            <a href="#hero" class="logo">Ashwani K. Singh</a>
-            <ul id="nav-list">
+            <a href="#hero" class="logo">Ashwani Kumar Singh</a>
+            <ul class="nav-links" id="nav-list">
                 <li><a href="#education">Academics</a></li>
                 <li><a href="#experience">Experience</a></li>
                 <li><a href="#projects">Projects</a></li>
@@ -459,39 +270,48 @@
 
     <main>
         <section id="hero">
-            <div class="hero-content container reveal">
-                <h1>Ashwani Kumar Singh</h1>
-                <p class="subtitle">Final Year Undergraduate • Civil Engineering • Indian Institute of Technology Kanpur</p>
-                <div class="hero-contact">
-                    <a href="tel:+919336520097"><i class="fa fa-phone"></i> (+91) 9336520097</a>
-                    <a href="mailto:ashwaniks22@iitk.ac.in"><i class="fa fa-envelope"></i> ashwaniks22@iitk.ac.in</a>
+            <div class="container hero-grid">
+                <div class="hero-text reveal reveal-left">
+                    <h1 class="gradient-text">Ashwani Kumar Singh</h1>
+                    <p class="subtitle">
+                        <span class="static-text">Final Year UG | Civil Engineering | IITK</span>
+                        <br>
+                        <span id="typing-text"></span><span class="typing-cursor"></span>
+                    </p>
+                    <div class="hero-contact">
+                        <a href="tel:+919336520097"><i class="fa fa-phone"></i> (+91) 9336520097        <a href="https://drive.google.com/file/d/1igTxmW6shndDB2nEq0EN4Z444Vd_tWXx/view?usp=sharing" target="_blank" class="project-links"> <strong> Resume Link </strong> <i class="fas fa-external-link-alt fa-xs"></i></a> </a>
+                        <a href="mailto:ashwaniks22@iitk.ac.in"><i class="fa fa-envelope"></i> ashwaniks22@iitk.ac.in</a>
+                    </div>
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/ashwani-singh-2b1771202" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://github.com/AshwaniE609" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    </div>
                 </div>
-                <div class="social-links">
-                    <a href="https://www.linkedin.com/in/ashwani-singh-2b1771202" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    <a href="https://github.com/AshwaniE609" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <div class="hero-image reveal reveal-right">
+                    <img src="https://media.licdn.com/dms/image/v2/D5603AQGHhWouMmui0w/profile-displayphoto-scale_400_400/B56ZkRSydtH8Ak-/0/1756931764357?e=1759968000&v=beta&t=WsRy2ARzR-7QE7Cx8VHxjpZmc9TLrzfpg7inTL507l0" alt="Ashwani Kumar Singh">
                 </div>
             </div>
         </section>
 
         <section id="education">
             <div class="container">
-                <h2 class="reveal">Academic Qualifications</h2>
+                <h2 class="gradient-text reveal reveal-up">Academic Qualifications</h2>
                 <div class="education-grid">
-                    <div class="education-card card reveal" style="transition-delay: 100ms;">
+                    <div class="education-card card reveal reveal-up">
                         <i class="fas fa-university"></i>
                         <h3>B.Tech, Civil Engineering</h3>
                         <p>Indian Institute of Technology Kanpur</p>
                         <p class="date">2022 - Present</p>
                         <div class="score">7.1 / 10 CPI</div>
                     </div>
-                    <div class="education-card card reveal" style="transition-delay: 200ms;">
+                    <div class="education-card card reveal reveal-up" style="transition-delay: 100ms;">
                         <i class="fas fa-graduation-cap"></i>
                         <h3>CBSE (XII)</h3>
                         <p>Little Flower House, Varanasi</p>
                         <p class="date">2021</p>
                         <div class="score">95.0 %</div>
                     </div>
-                    <div class="education-card card reveal" style="transition-delay: 300ms;">
+                    <div class="education-card card reveal reveal-up" style="transition-delay: 200ms;">
                         <i class="fas fa-school"></i>
                         <h3>CBSE (X)</h3>
                         <p>Divine Sainik School, Varanasi</p>
@@ -504,8 +324,7 @@
 
         <section id="achievements">
             <div class="container">
-                <h2 class="reveal">Scholastic Achievements</h2>
-                <div class="achievement-card card reveal">
+                <div class="achievement-card card reveal reveal-zoom">
                     <i class="fas fa-trophy"></i>
                     <h3>WorldQuant BRAIN</h3>
                     <p>Attained <strong>Gold Level</strong> in the WorldQuant Brain IQC and was offered a <strong>Brain Quantitative Research Consultant Position</strong> for exceptional performance in creating quantitative trading signals.</p>
@@ -515,201 +334,249 @@
         
         <section id="experience">
             <div class="container">
-                <h2 class="reveal">Experience</h2>
+                <h2 class="gradient-text reveal reveal-up">Experience</h2>
                 <div class="timeline">
-                    <div class="timeline-item right reveal">
-                        <div class="timeline-icon"><i class="fas fa-briefcase"></i></div>
-                        <div class="timeline-content">
-                            <h3>Research Intern</h3>
-                            <span class="tag">Maritime Research Center</span>
-                            <span class="date">Jun 2024 - Aug 2024</span>
+                    <div class="timeline-item right">
+                        <div class="timeline-icon reveal reveal-zoom"><i class="fas fa-briefcase"></i></div>
+                        <div class="timeline-content reveal reveal-right">
+                            <h3>Research Intern</h3><span class="tag">Maritime Research Center</span><span class="date">Jun'24- Aug'24</span>
                             <ul>
-                                <li><span class="lor-highlight">Received Letter of Recommendation</span> for exemplary performance.</li>
-                                <li>Architected a multi-stressor model for the Konkan coast's <strong>₹3.7 lakh crore</strong> economy.</li>
-                                <li>Projected a <strong>20-30% reduction</strong> in climate economic damages, supporting data-driven governance.</li>
-                                <li>Modeled scenarios projecting a potential <strong>US$14-22 billion GDP</strong> risk.</li>
+                                <li><strong> Letter of Recommendation for exemplary performance.</strong></li>
+                                <li>Architected a model for Konkan coast's <strong>₹<span class="counter" data-target="3">0</span>.<span class="counter" data-target="7">0</span> lakh crore</strong> economy.</li>
+                                <li>Projected a <strong><span class="counter" data-target="30">0</span>% reduction</strong> in climate economic damages.</li>
+                                <li>Modeled scenarios projecting a potential <strong>US$<span class="counter" data-target="22">0</span> billion GDP</strong> risk.</li>
+                                <li>Provided data-backed insights for targeted policy and infrastructure planning.</li>
                             </ul>
                         </div>
                     </div>
-                    <div class="timeline-item left reveal">
-                        <div class="timeline-icon"><i class="fas fa-briefcase"></i></div>
-                        <div class="timeline-content">
-                            <h3>LLM Engineering Intern</h3>
-                            <span class="tag">Trancribeby</span>
-                            <span class="date">Mar 2025 - Apr 2025</span>
+                    <div class="timeline-item left">
+                        <div class="timeline-icon reveal reveal-zoom"><i class="fas fa-briefcase"></i></div>
+                        <div class="timeline-content reveal reveal-left">
+                            <h3>LLM Engineering Intern</h3><span class="tag">Trancribeby</span><span class="date">Mar'25- Apr'25(<a href="https://krishi-samadhan.netlify.app" target="_blank" class="project-links">Webpage Link <i class="fas fa-external-link-alt fa-xs"></i></a>)</span>
                             <ul>
-                                <li>Engineered a multilingual, multimodal RAG chatbot for <strong>10 Indian languages</strong> with <4s response time.</li>
-                                <li>Automated data retrieval with web scraping & image recognition, achieving <strong>>80%</strong> accuracy.</li>
-                                <li>Integrated text, voice, image, & location data for context-aware intelligence.</li>
+                                <li>Engineered a RAG chatbot for <strong><span class="counter" data-target="10">0</span> Indian languages</strong> with <<strong><span class="counter" data-target="4">0</span>s</strong> response time.</li>
+                                <li>Automated data retrieval with web scraping & image recognition, achieving ><strong><span class="counter" data-target="80">0</span>%</strong> accuracy.</li>
+                                <li>Integrated text, voice, image, & location data for context-aware intelligence. </li>
                             </ul>
                         </div>
                     </div>
-                    <div class="timeline-item right reveal">
-                         <div class="timeline-icon"><i class="fas fa-briefcase"></i></div>
-                        <div class="timeline-content">
-                            <h3>AI/ML Intern</h3>
-                            <span class="tag">Airawat Research Foundation</span>
-                            <span class="date">May 2024 - Jul 2025</span>
-                            <ul>
-                                <li>Engineered a satellite-based system fusing <strong>Sentinel-5P</strong> and ground sensor data for air quality monitoring.</li>
-                                <li>Increased prediction accuracy (R²) from <strong>0.6 to 0.85</strong> using a Random Forest model.</li>
-                                <li>Improved hotspot detection to a <strong>1km² spatial resolution</strong> for precise interventions.</li>
-                            </ul>
-                        </div>
-                    </div>
-                     <div class="timeline-item left reveal">
-                        <div class="timeline-icon"><i class="fas fa-flask"></i></div>
-                        <div class="timeline-content">
-                            <h3>Beamforming-Based Source Localization</h3>
-                            <span class="tag">Research Project | IIT Kanpur</span>
-                            <span class="date">Jan 2025 - Apr 2025</span>
-                            <ul>
-                                <li>Engineered a robust <strong>50+ hour multi-channel audio dataset</strong> by simulating Room Impulse Responses.</li>
-                                <li>Improved localization by reducing spatial aliasing in MATLAB and Python.</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="timeline-item right reveal">
-                        <div class="timeline-icon"><i class="fas fa-flask"></i></div>
-                        <div class="timeline-content">
-                            <h3>Neural Network for Speech-Noise Separation</h3>
-                            <span class="tag">Research Project | IIT Kanpur</span>
-                            <span class="date">Jan 2025 - Apr 2025</span>
-                            <ul>
-                                <li>Developed a PyTorch-based transformer network with <strong>345K parameters</strong>.</li>
-                                <li>Optimized GPU memory usage by <strong>50%</strong> through mixed-precision training.</li>
-                                <li>Improved separation quality over baseline MSE by <strong>40%</strong> using an SI-SDR loss function.</li>
-                            </ul>
-                        </div>
-                    </div>
+                    <div class="timeline-item right">
+                        <div class="timeline-icon reveal reveal-zoom"><i class="fas fa-briefcase"></i></div>
+                       <div class="timeline-content reveal reveal-right">
+                           <h3>AI/ML Intern</h3><span class="tag">Airawat Research Foundation</span><span class="date">May'24- Jul'25 </span>
+                           <ul>
+                               <li>Engineered a system fusing <strong>Sentinel-5P</strong> and ground sensor data for air quality monitoring.</li>
+                               <li>Increased prediction accuracy (R²) from <strong>0.6 to 0.85</strong> using a Random Forest model.</li>
+                               <li>Improved hotspot detection to a <strong>1km² spatial resolution</strong> for precise interventions.</li>
+                               <li>Framework projected to reduce monitoring costs by <strong>60-80%</strong> and save <strong>30-40</strong> hours/week. </li>
+                           </ul>
+                       </div>
+                   </div>
+                    <div class="timeline-item left">
+                       <div class="timeline-icon reveal reveal-zoom"><i class="fas fa-flask"></i></div>
+                       <div class="timeline-content reveal reveal-left">
+                           <h3>Beamforming-Based Source Localization</h3><span class="tag">Research Project | IIT Kanpur</span><span class="date">Jan'25- Apr'25 (<a href="https://github.com/AshwaniE609/Simulating-Multi-Microphone-Spatial-Audio-in-Reverberant-Rooms" target="_blank" class="project-links">GitHub Link <i class="fas fa-external-link-alt fa-xs"></i></a>)</span>
+                           <ul>
+                               <li>Engineered a robust <strong>50+ hour multi-channel audio dataset</strong> by simulating Room Impulse Responses.</li>
+                               <li>Enhanced data diversity by applying 1-D convolution and injecting realistic noise.</li>
+                               <li>Corrected audio degradation using spectral-based gain correction & validated with SNR metrics.</li>
+                               <li>Improved localization by reducing spatial aliasing in MATLAB and Python.</li>
+                           </ul>
+                       </div>
+                   </div>
+                   <div class="timeline-item right">
+                       <div class="timeline-icon reveal reveal-zoom"><i class="fas fa-flask"></i></div>
+                       <div class="timeline-content reveal reveal-right">
+                           <h3>Neural Network for Speech-Noise Separation</h3><span class="tag">Research Project | IIT Kanpur</span><span class="date">Jan'25- Apr'25 (<a href="https://github.com/AshwaniE609/Modified_-TUSS" target="_blank" class="project-links">GitHub Link <i class="fas fa-external-link-alt fa-xs"></i></a>)</span>
+                           <ul>
+                               <li>Developed a PyTorch-based transformer network with <strong>345K parameters</strong>.</li>
+                               <li>Optimized GPU memory usage by <strong>50%</strong> through mixed-precision training.</li>
+                               <li>Improved separation quality over baseline MSE by <strong>40%</strong> using an SI-SDR loss function.</li>
+                               <li>Achieved stable model convergence using early stopping, learning rate scheduling, and checkpointing.</li>
+                           </ul>
+                       </div>
+                   </div>
                 </div>
             </div>
         </section>
 
         <section id="projects">
             <div class="container">
-                <h2 class="reveal">Projects Showcase</h2>
+                <h2 class="gradient-text reveal reveal-up">Projects Showcase</h2>
                 <div class="accordion">
-                    <details class="reveal">
+                    <details class="reveal reveal-up">
                         <summary>Voice Morph Companion (Project Mentored)</summary>
                         <div class="accordion-content">
                             <p class="project-meta">Electronics Club | Mentored 15+ Freshmen | May'24 - July'24</p>
-                            <h4>Objective:</h4>
-                            <p>To develop a touch-enabled Smart Mirror for home automation with an audio-enabled LLM chatbot on a Raspberry Pi.</p>
-                            <h4>Approach:</h4>
-                            <ul>
-                                <li>Utilized an IR sensor matrix for touch screen functionality.</li>
-                                <li>Used the Magic Mirror platform for the interface and integrated modules like Spotify and weather.</li>
-                            </ul>
-                             <div class="tech-tags">
-                                <span class="tech-tag">Raspberry Pi</span>
-                                <span class="tech-tag">IoT</span>
-                                <span class="tech-tag">LLM</span>
-                                <span class="tech-tag">Python</span>
-                            </div>
+                            <h4>Objective:</h4><p>Develop a touch-enabled Smart Mirror for home automation with an audio-enabled LLM chatbot on a Raspberry Pi.</p>
+                            <h4>Approach:</h4><ul><li>Utilized an IR sensor matrix for touch functionality based on infrared interference.</li><li>Used the Magic Mirror platform for the UI and integrated modules like Spotify and weather.</li></ul>
+                             <div class="tech-tags"><span class="tech-tag">Raspberry Pi</span><span class="tech-tag">IoT</span><span class="tech-tag">LLM</span><span class="tech-tag">Python</span></div>
                         </div>
                     </details>
-                    
-                    <details class="reveal">
+                    <details class="reveal reveal-up">
                         <summary>BRAIN Research Consultant (Quantitative Finance)</summary>
                         <div class="accordion-content">
                            <p class="project-meta">WorldQuant LLC | Nov'23 - ongoing</p>
-                           <h4>Impact:</h4>
-                           <p>Created 10+ profitable, mid-frequency market-neutral trading signals (Alphas) with a combined Sharpe ratio of <strong>2.15</strong> and returns of <strong>8.76%</strong> by analyzing momentum and mean-reversion strategies.</p>
-                           <div class="tech-tags">
-                                <span class="tech-tag">Quantitative Finance</span>
-                                <span class="tech-tag">Python</span>
-                                <span class="tech-tag">Data Analysis</span>
-                           </div>
+                           <h4>Objective:</h4><p>Create mid-frequency market-neutral quantitative trading signals (Alphas) for the global equity market.</p>
+                           <h4>Approach:</h4><ul><li>Analysed research papers on momentum & mean-reversion to identify trading signals.</li><li>Examined various datasets like Price-volume, sentiment, fundamental, and news data.</li></ul>
+                           <h4>Impact:</h4><p>Created 10+ profitable alphas with a combined Sharpe ratio of <strong>2.15</strong> and returns of <strong>8.76%</strong>.</p>
+                           <div class="tech-tags"><span class="tech-tag">Quantitative Finance</span><span class="tech-tag">Python</span><span class="tech-tag">Data Analysis</span></div>
                         </div>
                     </details>
-                    <details class="reveal">
+                    <details class="reveal reveal-up">
                         <summary>Land Cover Classification (Remote Sensing & ML)</summary>
                         <div class="accordion-content">
-                           <p class="project-meta">Course Project | Mentor: Prof. Onkar Dikshit</p>
-                           <p>Developed Random Forest classifiers with spatial-context feature engineering, delivering <strong>91.8% accuracy</strong> across nine land cover categories using Sentinel-2 imagery. Automated accuracy reporting workflows, cutting manual post-analysis effort by <strong>80%</strong>.</p>
-                            <div class="tech-tags">
-                                <span class="tech-tag">Machine Learning</span>
-                                <span class="tech-tag">Python</span>
-                                <span class="tech-tag">Rasterio</span>
-                                <span class="tech-tag">QGIS</span>
-                           </div>
+                           <p class="project-meta">Course Project | Mentor: Prof. Onkar Dikshit (<a href="https://github.com/AshwaniE609/Land-Cover-Classification-and-Accuracy-Analysis" target="_blank" class="project-links">GitHub Link <i class="fas fa-external-link-alt fa-xs"></i></a>)</p>
+                           <p>Developed Random Forest classifiers with spatial-context feature engineering, delivering <strong>91.8% accuracy</strong> across nine land cover categories using Sentinel-2 imagery. Built advanced validation pipelines producing Confusion matrices, F1-scores (Trees 0.91, Built Area 0.86, Crops 0.83), Kappa 0.78, and Z-statistic 340.18. Automated accuracy reporting, cutting manual post-analysis effort by 80%.</p>
+                           <div class="tech-tags"><span class="tech-tag">Machine Learning</span><span class="tech-tag">Python</span><span class="tech-tag">Rasterio</span><span class="tech-tag">QGIS</span><span class="tech-tag">GeoPandas</span></div>
                         </div>
                     </details>
-                    <details class="reveal">
+                    <details class="reveal reveal-up">
+                        <summary>Silt-Detection in the Ganges River (IoT Device)</summary>
+                        <div class="accordion-content">
+                           <p class="project-meta">Electronics Club, IIT Kanpur | Oct'23 - Mar'24</p>
+                           <h4>Objective:</h4><p>Engineer a multi-sensory device for precise detection of silt concentration in the Ganges river.</p>
+                           <h4>Approach:</h4><ul><li>Leveraged the principles of infrared (IR) light diffraction.</li><li>The device quantifies silt by emitting IR rays, capturing the diffracted rays upon reflection, and analyzing patterns.</li></ul>
+                           <h4>Result:</h4><p>Developed an OBS (Orbital Backscatter Point sensor) using Arduino Nano, RTC module, IR emitter/receiver, and SD card module.</p>
+                           <div class="tech-tags"><span class="tech-tag">IoT</span><span class="tech-tag">Arduino</span><span class="tech-tag">Sensors</span><span class="tech-tag">C++</span></div>
+                        </div>
+                    </details>
+                     <details class="reveal reveal-up">
+                        <summary>Symphony Brush (Creative Tech)</summary>
+                        <div class="accordion-content">
+                           <p class="project-meta">Course Project | Prof. Gowdham Prabhakar | DES634</p>
+                           <h4>Objective:</h4><p>Leverage color recognition technology to orchestrate real-time sound synthesis that responds to a user’s painting.</p>
+                           <h4>Approach:</h4><ul><li>Used an MPU6050 to measure changes in brush speed and orientation.</li><li>Plotted sensor readings to different sound patterns to produce suitable sound while painting.</li></ul>
+                           <h4>Result:</h4><p>Implemented on a Seeed Studio XIAO ESP32S3 with TCS3200 (color sensor) and MPU6050 (gyro/accelerometer) as an extension.</p>
+                           <div class="tech-tags"><span class="tech-tag">IoT</span><span class="tech-tag">ESP32</span><span class="tech-tag">Sensors</span></div>
+                        </div>
+                    </details>
+                    <details class="reveal reveal-up">
+                        <summary>Machine Learning Modeling of Arbiter PUFs</summary>
+                        <div class="accordion-content">
+                           <p class="project-meta">Course Project | Prof. Purushottam Kar | IIT Kanpur</p>
+                           <ul>
+                               <li>Developed a Gradio app using Sentinel-2 multispectral data, reducing manual annotation time by 60%.</li>
+                               <li>Achieved 93.35% accuracy with a Random Forest classifier (scikit-learn).</li>
+                               <li>Validated model robustness for scalable geospatial analytics using Kappa statistics (0.88).</li>
+                               <li>Enhanced model interpretability through spectral band analysis (GeoPandas/OpenCV).</li>
+                           </ul>
+                           <div class="tech-tags"><span class="tech-tag">Machine Learning</span><span class="tech-tag">Gradio</span><span class="tech-tag">OpenCV</span><span class="tech-tag">Scikit-learn</span></div>
+                        </div>
+                    </details>
+                    <details class="reveal reveal-up">
+                        <summary>Optimal Water Allocation – Hirakud Reservoir</summary>
+                        <div class="accordion-content">
+                           <p class="project-meta">Course Project | Mentor: Prof. Tushar Apurv</p>
+                           <p>Developed a Python-based Linear Programming model to optimize multi-sectoral water allocation, achieving <strong>92%</strong> demand satisfaction. Built scalable data pipelines reducing net planning time by <strong>40%</strong> and validated model robustness via Monte Carlo analysis, improving predictive planning accuracy by <strong>25%</strong>.</p>
+                           <div class="tech-tags"><span class="tech-tag">Optimization</span><span class="tech-tag">Linear Programming</span><span class="tech-tag">Python</span><span class="tech-tag">Monte Carlo</span></div>
+                        </div>
+                    </details>
+                    <details class="reveal reveal-up">
+                        <summary>Autonomous Spying Bot (Robotics & CV)</summary>
+                        <div class="accordion-content">
+                           <p class="project-meta">Course Project | Prof. Niraj Sinha | TA212</p>
+                           <h4>Objective:</h4><p>Build a small bot that autonomously follows any target object upon giving its details.</p>
+                           <ul>
+                               <li>Used an IP webcam (mobile) to capture surroundings and send data to a Python script.</li>
+                               <li>Used image processing techniques to identify the target.</li>
+                               <li>Sent movement commands to an Arduino UNO which regulated the Bot.</li>
+                               <li>Manufactured and 3D printed all parts for a test bot that could follow a ball autonomously.</li>
+                           </ul>
+                           <div class="tech-tags"><span class="tech-tag">Robotics</span><span class="tech-tag">Computer Vision</span><span class="tech-tag">Arduino</span><span class="tech-tag">Python</span></div>
+                        </div>
+                    </details>
+                    <details class="reveal reveal-up">
+                        <summary>Introduction to Machine Learning (Course Project)</summary>
+                        <div class="accordion-content">
+                           <p class="project-meta">SOCE | IIT Kanpur</p>
+                           <ul>
+                               <li>Implemented various ML algorithms including linear regression, decision trees, and logistic regression.</li>
+                               <li>Applied optimization techniques and regularization methods to enhance model performance.</li>
+                               <li>Utilized Gradient Descent for efficient parameter optimization.</li>
+                           </ul>
+                           <div class="tech-tags"><span class="tech-tag">Machine Learning</span><span class="tech-tag">Regression</span><span class="tech-tag">Gradient Descent</span></div>
+                        </div>
+                    </details>
+                    <details class="reveal reveal-up">
+                        <summary>Image processing and Computer Vision (Project)</summary>
+                        <div class="accordion-content">
+                           <p class="project-meta">Stamatics, IIT Kanpur</p>
+                           <ul>
+                               <li>Implemented image enhancement and denoising techniques: Blurring, Thresholding, Filtering, Edge Detection, etc.</li>
+                               <li>Employed OpenCV’s noise reduction algorithms to improve the quality of CCTV images.</li>
+                               <li>Developed a program using OpenCV, applying techniques like Adaptive Thresholding and Sharpening to improve clarity.</li>
+                           </ul>
+                           <div class="tech-tags"><span class="tech-tag">Computer Vision</span><span class="tech-tag">OpenCV</span><span class="tech-tag">Python</span></div>
+                        </div>
+                    </details>
+                    <details class="reveal reveal-up">
+                        <summary>Battle Bots (Robotics)</summary>
+                        <div class="accordion-content">
+                           <p class="project-meta">Robotics Club, IIT Kanpur</p>
+                           <p>Designed and manufactured a <strong>vertical spinner battlebot</strong> under 15 kg to represent IIT Kanpur. Created CAD models in Fusion 360 and conducted structural analysis using ANSYS simulations.</p>
+                           <div class="tech-tags"><span class="tech-tag">Robotics</span><span class="tech-tag">Fusion 360</span><span class="tech-tag">ANSYS</span><span class="tech-tag">Manufacturing</span></div>
+                        </div>
+                    </details>
+                     <details class="reveal reveal-up">
+                        <summary>Sudoku Solver (Algorithm)</summary>
+                        <div class="accordion-content">
+                           <p class="project-meta">Self Project</p>
+                           <p>Developed and optimized a Sudoku solver using backtracking and heuristic methods (MRV) in C++. Achieved a >70% reduction in average solve time for expert-level puzzles & solved complex 9x9 grids in under 50ms.</p>
+                           <div class="tech-tags"><span class="tech-tag">C++</span><span class="tech-tag">Algorithms</span><span class="tech-tag">Backtracking</span><span class="tech-tag">Git</span></div>
+                           <p class="project-links"><a href="https://github.com/AshwaniE609/Suduko-Solver" target="_blank">View on GitHub <i class="fas fa-external-link-alt fa-xs"></i></a></p>
+                        </div>
+                    </details>
+                    <details class="reveal reveal-up">
                         <summary>Predicting Stock Returns (CAPM & FAMA French)</summary>
                         <div class="accordion-content">
                             <p class="project-meta">Self Project</p>
                             <p>Implemented and compared CAPM (92% accuracy) and FAMA French (95% accuracy) models. Optimized a portfolio by plotting an Efficient Frontier, achieving a max Sharpe ratio of <strong>1.9</strong>.</p>
-                            <div class="project-links">
-                                <a href="https://github.com/AshwaniE609/Stock-Return-prediction-Model" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i> View on GitHub</a>
-                            </div>
-                        </div>
-                    </details>
-                    <details class="reveal">
-                        <summary>Silt-Detection in the Ganges River (IoT Device)</summary>
-                        <div class="accordion-content">
-                           <p class="project-meta">Electronics Club, IIT Kanpur</p>
-                           <p>Engineered an Orbital Backscatter Point (OBS) sensor using Arduino Nano and IR components to precisely detect silt concentration by analyzing infrared light diffraction patterns in real-time.</p>
-                           <div class="tech-tags">
-                                <span class="tech-tag">IoT</span>
-                                <span class="tech-tag">Arduino</span>
-                                <span class="tech-tag">Sensors</span>
-                                <span class="tech-tag">C++</span>
-                           </div>
-                        </div>
-                    </details>
-                     <details class="reveal">
-                        <summary>Battle Bots (Robotics)</summary>
-                        <div class="accordion-content">
-                           <p class="project-meta">Robotics Club, IIT Kanpur</p>
-                           <p>Designed and manufactured a 15 kg category vertical spinner battlebot. Created the CAD model in Fusion 360 and performed structural analysis using ANSYS simulations to optimize for combat durability.</p>
-                           <div class="tech-tags">
-                                <span class="tech-tag">Robotics</span>
-                                <span class="tech-tag">Fusion 360</span>
-                                <span class="tech-tag">ANSYS</span>
-                                <span class="tech-tag">Manufacturing</span>
-                           </div>
+                            <div class="tech-tags"><span class="tech-tag">Python</span><span class="tech-tag">Quantitative Finance</span><span class="tech-tag">Statistics</span></div>
+                            <p class="project-links"><a href="https://github.com/AshwaniE609/Stock-Return-prediction-Model" target="_blank">View on GitHub <i class="fas fa-external-link-alt fa-xs"></i></a></p>
                         </div>
                     </details>
                 </div>
             </div>
         </section>
-
+        
         <section id="responsibility">
             <div class="container">
-                <h2 class="reveal">Positions of Responsibility</h2>
+                <h2 class="gradient-text reveal reveal-up">Positions of Responsibility</h2>
                 <div class="accordion">
-                     <details class="reveal">
+                     <details class="reveal reveal-up">
                         <summary>Leader | Noor - Fashion Society</summary>
                         <div class="accordion-content">
-                            <p class="project-meta">MnC Council, IIT Kanpur | July'24 - Present</p>
+                            <p class="por-meta">MnC Council, IIT Kanpur | July'24 - Present</p>
+                            <h4>Leadership & Impact:</h4>
                             <ul>
-                                <li>Founded the society and scaled it to <strong>150+ members</strong> in under 90 days, making it the most popular MnC club on campus.</li>
-                                <li>Spearheaded a 3-tier team of <strong>30 secretaries</strong> and 120+ volunteers.</li>
-                                <li>Managed a society budget of <strong>₹2 Lakhs</strong> to conduct events and competitions.</li>
-                                <li><strong>Impact:</strong> Directed a team to secure a <strong>Gold medal</strong> (Disenador), <strong>Silver medal</strong> (Ritambhara), and a <strong>5th place national finish</strong> at Inter IIT Cult Meet 7.0.</li>
+                                <li>Founded the society and scaled it to <strong><span class="counter" data-target="150">0</span>+ members</strong> in under 90 days.</li>
+                                <li>Spearheaded a 3-tier team of 30 secretaries and 120+ volunteers.</li>
+                                <li>Managed a society budget of <strong>₹<span class="counter" data-target="2">0</span> Lakhs</strong>.</li>
+                                <li>Directed a 40+ member team to secure a Gold medal, a Silver medal, and a <strong>5th place national finish</strong> at Inter IIT Cult Meet 7.0.</li>
                             </ul>
                         </div>
                     </details>
-                    <details class="reveal">
+                    <details class="reveal reveal-up">
                         <summary>Secretary | Electronics Club</summary>
                         <div class="accordion-content">
-                            <p class="project-meta">IIT Kanpur | Jul'23 - Mar'24</p>
+                            <p class="por-meta">IIT Kanpur | Jul'23 - Mar'24</p>
                              <ul>
-                                <li>Organized 2 workshops with <strong>200+ student</strong> participation.</li>
+                                <li>Organized 2 workshops with <strong><span class="counter" data-target="200">0</span>+ student</strong> participation.</li>
+                                <li>Took intro lecture of Electrovista, a competition with 100+ participants.</li>
+                                <li>Participated in <strong>Smart India Hackathon (SIH’23)</strong> as part of a 6-member team.</li>
                                 <li>Conducted a 10-day winter camp educating over 20 students in IoT concepts.</li>
-                                <li>Participated in <strong>Smart India Hackathon (SIH’23)</strong> as a part of a 6-member team to develop a smart farming ecosystem.</li>
                             </ul>
                         </div>
                     </details>
-                    <details class="reveal">
+                    <details class="reveal reveal-up">
                         <summary>Marketing Secretary | Entrepreneurship Cell</summary>
                         <div class="accordion-content">
-                            <p class="project-meta">IIT Kanpur | Jul'23 - Mar'24</p>
+                            <p class="por-meta">IIT Kanpur | Jul'23 - Mar'24</p>
                             <ul>
                                 <li>Key role in conducting flagship event <strong>E-Summit’23</strong> by securing sponsorships and managing events.</li>
-                                <li>Organized "Bid For The Best," a competition for freshers with over <strong>500 participants</strong>.</li>
+                                <li>Conducted Pre-Summit events in nearby cities to expand awareness.</li>
+                                <li>Organized "Bid For The Best," a competition for freshers with over <strong><span class="counter" data-target="500">0</span>+ participants</strong>.</li>
                             </ul>
                         </div>
                     </details>
@@ -719,69 +586,86 @@
 
         <section id="skills">
             <div class="container">
-                <h2 class="reveal">Technical Skills</h2>
+                <h2 class="gradient-text reveal reveal-up">Technical Skills</h2>
                 <div class="skills-grid">
-                    <div class="skill-item reveal"><i class="devicon-python-plain-wordmark colored"></i><p>Python</p></div>
-                    <div class="skill-item reveal"><i class="devicon-c-plain colored"></i><p>C</p></div>
-                    <div class="skill-item reveal"><i class="devicon-cplusplus-plain colored"></i><p>C++</p></div>
-                    <div class="skill-item reveal"><i class="devicon-latex-original colored"></i><p>LaTeX</p></div>
-                    <div class="skill-item reveal"><i class="devicon-git-plain-wordmark colored"></i><p>Git</p></div>
-                    <div class="skill-item reveal"><i class="devicon-numpy-original-wordmark colored"></i><p>Numpy</p></div>
-                    <div class="skill-item reveal"><i class="devicon-pandas-original-wordmark colored"></i><p>Pandas</p></div>
-                    <div class="skill-item reveal"><i class="devicon-tensorflow-original-wordmark colored"></i><p>TensorFlow</p></div>
-                    <div class="skill-item reveal"><i class="devicon-scikitlearn-plain-wordmark colored"></i><p>Scikit-learn</p></div>
-                    <div class="skill-item reveal"><i class="devicon-arduino-plain-wordmark colored"></i><p>Arduino</p></div>
-                    <div class="skill-item reveal"><i class="devicon-autocad-plain colored"></i><p>AutoCAD</p></div>
-                    <div class="skill-item reveal"><i class="fas fa-database" style="color:#00758F;"></i><p>QGIS</p></div>
+                    <div class="skill-item reveal reveal-up"><i class="devicon-python-plain-wordmark colored"></i><p>Python</p></div>
+                    <div class="skill-item reveal reveal-up"><i class="devicon-cplusplus-plain colored"></i><p>C++</p></div>
+                    <div class="skill-item reveal reveal-up"><i class="devicon-c-plain colored"></i><p>C</p></div>
+                    <div class="skill-item reveal reveal-up"><i class="devicon-latex-original colored"></i><p>LaTeX</p></div>
+                    <div class="skill-item reveal reveal-up"><i class="devicon-git-plain-wordmark colored"></i><p>Git</p></div>
+                    <div class="skill-item reveal reveal-up"><i class="devicon-numpy-original-wordmark colored"></i><p>Numpy</p></div>
+                    <div class="skill-item reveal reveal-up"><i class="devicon-pandas-original-wordmark colored"></i><p>Pandas</p></div>
+                    <div class="skill-item reveal reveal-up"><i class="devicon-tensorflow-original-wordmark colored"></i><p>TensorFlow</p></div>
+                    <div class="skill-item reveal reveal-up"><i class="devicon-scikitlearn-plain-wordmark colored"></i><p>Scikit-learn</p></div>
+                    <div class="skill-item reveal reveal-up"><i class="devicon-arduino-plain-wordmark colored"></i><p>Arduino</p></div>
+                    <div class="skill-item reveal reveal-up"><i class="devicon-autocad-plain colored"></i><p>AutoCAD</p></div>
+                    <div class="skill-item reveal reveal-up"><i class="fas fa-feather-alt" style="color:#FF7F27;"></i><p>Fusion 360</p></div>
+                    <div class="skill-item reveal reveal-up"><i class="fas fa-bolt" style="color:#f2c301"></i><p>Flux.ai</p></div>
+                    <div class="skill-item reveal reveal-up"><i class="fas fa-database" style="color:#589632;"></i><p>QGIS</p></div>
                 </div>
             </div>
         </section>
         
-        <section id="courses" style="background: var(--primary-light);">
+        <section id="courses">
             <div class="container">
-                 <h2 class="reveal">Relevant Courses</h2>
+                 <h2 class="gradient-text reveal reveal-up">Relevant Courses</h2>
                  <div class="courses-grid">
-                     <div class="course-item reveal"><p>AI/ML for Designers</p></div>
-                     <div class="course-item reveal"><p>Introduction to Machine Learning</p></div>
-                     <div class="course-item reveal"><p>Machine Processing of Remote Data</p></div>
-                     <div class="course-item reveal"><p>Fundamentals of Computing</p></div>
-                     <div class="course-item reveal"><p>Applied Probability And Statistics</p></div>
-                     <div class="course-item reveal"><p>Linear Algebra</p></div>
-                     <div class="course-item reveal"><p>Electronics for Designers</p></div>
-                     <div class="course-item reveal"><p>Mechanics of Solids</p></div>
+                     <div class="course-item reveal reveal-zoom"><p>AI/ML for Designers</p></div>
+                     <div class="course-item reveal reveal-zoom"><p>Introduction to Machine Learning</p></div>
+                     <div class="course-item reveal reveal-zoom"><p>Machine Processing of Remote Data</p></div>
+                     <div class="course-item reveal reveal-zoom"><p>Fundamentals of Computing</p></div>
+                     <div class="course-item reveal reveal-zoom"><p>Applied Probability And Statistics</p></div>
+                     <div class="course-item reveal reveal-zoom"><p>Linear Algebra</p></div>
+                     <div class="course-item reveal reveal-zoom"><p>Electronics for Designers</p></div>
+                     <div class="course-item reveal reveal-zoom"><p>Mechanics of Solids</p></div>
+                     <div class="course-item reveal reveal-zoom"><p>Single Variable Calculus</p></div>
+                     <div class="course-item reveal reveal-zoom"><p>Ordinary Differential Equation</p></div>
+                     <div class="course-item reveal reveal-zoom"><p>Introduction to Electronics</p></div>
+                     <div class="course-item reveal reveal-zoom"><p>Partial Differential Equation</p></div>
                  </div>
             </div>
         </section>
         
          <section id="extracurriculars">
             <div class="container">
-                <h2 class="reveal">Extra-Curriculars</h2>
+                <h2 class="gradient-text reveal reveal-up">Extra-Curriculars</h2>
                 <div class="accordion">
-                     <details class="reveal">
+                     <details class="reveal reveal-up">
                         <summary>Entrepreneurship & Technical</summary>
                         <div class="accordion-content">
                             <ul>
                                 <li>Pitched a startup idea at Asia's Biggest Technical Fest, <strong>Techkriti'23</strong> ('Pitch Premier'), and got the <strong>highest points</strong> among campus teams.</li>
-                                <li>Secured <strong>3rd position</strong> in Takneek'23 in a problem statement by the Electronics Club.</li>
+                                <li>Secured <strong>3rd position</strong> in Takneek'23 in a Problem Statement by the Electronics Club.</li>
                             </ul>
                         </div>
                     </details>
-                    <details class="reveal">
+                    <details class="reveal reveal-up">
                         <summary>Cultural Achievements</summary>
                         <div class="accordion-content">
                              <ul>
                                 <li>Represented IIT Kanpur in <strong>Inter IIT Cult Meet 6.0</strong> in Fashion, securing <strong>5th Position</strong> among 23 IITs.</li>
-                                <li>Represented IIT Kanpur in Cultural Fest <strong>Antaragni's 'Ritambhara'23'</strong> and secured <strong>3rd Position.</strong></li>
+                                <li>Represented IIT Kanpur in Cultural Fest <strong>Antaragni's 'Ritambhara'23'</strong> and secured <strong>3rd Position</strong>.</li>
+                                <li>Participated in Anime Cosplay in Galaxy'23 and Fresher's organized by Anisoc, IIT Kanpur.</li>
                             </ul>
                         </div>
                     </details>
-                    <details class="reveal">
-                        <summary>Volunteering & Social</summary>
+                    <details class="reveal reveal-up">
+                        <summary>Leadership & Sports</summary>
                         <div class="accordion-content">
                             <ul>
-                                <li>Volunteered in the <strong>Blood Donation Camp</strong> organized by Raktarpan, helping collect 316 units of blood.</li>
+                                <li>Lead a <strong>17-membered</strong> Fashion Team for the Inter-Hall Cultural Competition Galaxy'24.</li>
+                                <li>Participated in Inter-hall Sports competition Inferno'24 in Arm wrestling (Under 70kg category).</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details class="reveal reveal-up">
+                        <summary>Social & Volunteering</summary>
+                        <div class="accordion-content">
+                            <ul>
                                 <li>Participated in the <strong>'Wings for Life' World Run'23</strong> charity event for spinal cord injury research.</li>
                                 <li>Helped in <strong>JOSAA</strong> counselling for qualified students as an intern at Growth App.</li>
+                                <li>Volunteered in the <strong>Blood Donation Camp</strong> organized by Raktarpan, helping collect 316 units of blood.</li>
+                                <li>Volunteered in <strong>E-Summit'22</strong>, hosted the 'Decrypt' competition, and managed a startup founder during their stay.</li>
                             </ul>
                         </div>
                     </details>
@@ -804,40 +688,111 @@
     <a href="#hero" id="to-top"><i class="fas fa-arrow-up"></i></a>
 
     <script>
-        // --- Mobile Navigation ---
-        const menuIcon = document.getElementById('menu-icon');
-        const navList = document.getElementById('nav-list');
-        menuIcon.addEventListener('click', () => {
-            navList.classList.toggle('active');
-            menuIcon.classList.toggle('fa-times');
-        });
-        document.querySelectorAll('#nav-list a').forEach(link => {
-            link.addEventListener('click', () => {
-                navList.classList.remove('active');
-                menuIcon.classList.remove('fa-times');
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Mobile Navigation ---
+            const menuIcon = document.getElementById('menu-icon');
+            const navList = document.getElementById('nav-list');
+            menuIcon.addEventListener('click', () => {
+                navList.classList.toggle('active');
+                menuIcon.classList.toggle('fa-times');
             });
-        });
+            document.querySelectorAll('#nav-list a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navList.classList.remove('active');
+                    menuIcon.classList.remove('fa-times');
+                });
+            });
 
-        // --- On-Scroll Reveal Animation ---
-        const revealElements = document.querySelectorAll('.reveal');
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    revealObserver.unobserve(entry.target);
+            // --- Intersection Observer for Animations ---
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        
+                        const counters = entry.target.querySelectorAll('.counter');
+                        counters.forEach(counter => {
+                            if (!counter.hasAttribute('data-animated')) {
+                                animateCounter(counter);
+                                counter.setAttribute('data-animated', 'true');
+                            }
+                        });
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            revealElements.forEach(el => {
+                if (el.classList.contains('reveal-left') || el.classList.contains('reveal-right') || el.classList.contains('reveal-zoom')) {
+                    // uses existing reveal classes
+                } else {
+                    el.classList.add('reveal-up'); // default animation
+                }
+                revealObserver.observe(el);
+            });
+
+            // --- Typing Effect ---
+            const typingTextEl = document.getElementById('typing-text');
+            const typingCursorEl = document.querySelector('.typing-cursor');
+            const phrases = ["AI & Machine Learning Enthusiast", "Product Management Enthusiast", "Quantitative Finance Developer", "Creative Technologist"];
+            let phraseIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+
+            function type() {
+                if (!typingTextEl || !typingCursorEl) return;
+                typingCursorEl.style.display = 'inline-block';
+                const currentPhrase = phrases[phraseIndex];
+                if (isDeleting) {
+                    typingTextEl.textContent = currentPhrase.substring(0, charIndex - 1);
+                    charIndex--;
+                } else {
+                    typingTextEl.textContent = currentPhrase.substring(0, charIndex + 1);
+                    charIndex++;
+                }
+
+                let typeSpeed = isDeleting ? 60 : 120;
+                if (!isDeleting && charIndex === currentPhrase.length) {
+                    typeSpeed = 2000;
+                    isDeleting = true;
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    phraseIndex = (phraseIndex + 1) % phrases.length;
+                    typeSpeed = 500;
+                }
+                setTimeout(type, typeSpeed);
+            }
+            type();
+
+            // --- Counter Animation ---
+            function animateCounter(counter) {
+                const target = parseFloat(counter.getAttribute('data-target').replace(/,/g, ''));
+                const duration = 1500;
+                const updateFrequency = 20; // ms
+                const steps = duration / updateFrequency;
+                const increment = target / steps;
+                let current = 0;
+
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        clearInterval(timer);
+                        counter.innerText = target.toLocaleString('en-IN');
+                    } else {
+                        counter.innerText = Math.ceil(current).toLocaleString('en-IN');
+                    }
+                }, updateFrequency);
+            }
+            
+            // --- Back to Top Button ---
+            const toTopBtn = document.getElementById('to-top');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    toTopBtn.classList.add('active');
+                } else {
+                    toTopBtn.classList.remove('active');
                 }
             });
-        }, { threshold: 0.1 });
-        revealElements.forEach(el => revealObserver.observe(el));
-
-        // --- Back to Top Button ---
-        const toTopBtn = document.getElementById('to-top');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                toTopBtn.classList.add('active');
-            } else {
-                toTopBtn.classList.remove('active');
-            }
         });
     </script>
 </body>
